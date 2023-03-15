@@ -2,7 +2,7 @@ from flask import Flask
 app=Flask(__name__)
 
 menu="""
-<a href="/">Página inicial</a> | <a href="/sobre"><b>Sobre</b></a> ! <a href="/contato"><b>Contato</b></a>
+<a href="/"><b>Página inicial</b></a> | <a href="/sobre"><b>Sobre</b></a> ! <a href="/contato"><b>Contato</b></a>
 <br>
 """
 
