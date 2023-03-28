@@ -89,7 +89,7 @@ def dedoduro2():
   sheet.append_row(["Graziela", "França", "a partir do Flask"])
   return "Planilha escrita"
 
-@app_route('/telegram-bot')
+@app_route('/telegram-bot', methods=['POST'])
 def telegram_bot():
   update=request.json
   chat_ida=update['message']['chat']['id']
