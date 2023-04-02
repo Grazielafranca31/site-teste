@@ -92,7 +92,7 @@ def dedoduro2():
 @app.route("/telegram-bot", methods=["POST"])
 def telegram_bot():
   update = request.json
-    if "text" not in update["message"]:
+  if "text" not in update["message"]:
     continue  # Essa mensagem não é um texto!
   message = update["message"]["text"]
   chat_id = update["message"]["chat"]["id"]
