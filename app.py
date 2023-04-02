@@ -1,3 +1,4 @@
+import datetime
 import os
 import gspread
 import requests
@@ -90,29 +91,37 @@ def dedoduro2():
   return "Planilha escrita"
 
 @app.route("/telegram-bot", methods=["POST"])
-def telegram_bot():
-  update = request.json
-  if "text" not in update["message"]:
-    continue  # Essa mensagem não é um texto!
-  message = update["message"]["text"]
-  chat_id = update["message"]["chat"]["id"]
-  datahora = str(datetime.datetime.fromtimestamp(update["message"]["date"]))
-  if "username" in update["message"]["from"]:
-    username = update["message"]["from"]["username"]
-  else:
-    username = "[não definido]"
-  print(f"[{datahora}] Nova mensagem de {first_name} @{username} ({chat_id}): {message}")
-  mensagens.append([datahora, "recebida", username, first_name, chat_id, message])
+import datetime
+import requests
 
-  # Define qual será a resposta e envia
-  if message.lower().strip() == "Olá, tatu" or message.lower().strip() == "Ola, tatu":
-    texto_resposta = "Olá! Veja as novas matérias:l1nk.dev/newsdatatu"
-  else:
-    texto_resposta = "Não entendi! Se quiser ler as nossas últimas matéria diga: Olá, tatu"
-  nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
-  requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
-  mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta])
-  
-  requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
-  return "ok"
+def telegram_bot():
+    update = request.json
+    if "text" not in update["message"]:
+        return "Não é um texto!"  # Retorna imediatamente se não for um texto
+
+    message = update["message"]["text"]
+    chat_id = update["message"]["chat"]["id"]
+    datahora = str(datetime.datetime.fromtimestamp(update["message"]["date"]))
+
+    if "username" in update["message"]["from"]:
+        username = update["message"]["from"]["username"]
+    else:
+        username = "[não definido]"
+
+    print(f"[{datahora}] Nova mensagem de {first_name} @{username} ({chat_id}): {message}")
+    mensagens.append([datahora, "recebida", username, first_name, chat_id, message])
+
+    # Define qual será a resposta e envia
+    if message.lower().strip() == "olá, tatu" or message.lower().strip() == "ola, tatu":
+        texto_resposta = "Olá! Se quer receber as notícias de sites independentes do Nordeste me envie seu e-mail, por favor"
+    else:
+        texto_resposta = "Não entendi! Se quiser ter acesso às matérias de sites indepentes do Nordeste, envie seu e-mail, por favor "
+
+    nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
+    requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
+    mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta])
+
+    requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
+    return "ok"
+
   
