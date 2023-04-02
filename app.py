@@ -92,33 +92,19 @@ def dedoduro2():
 
 @app.route("/telegram-bot", methods=["POST"])
 def telegram_bot():
-    update = request.json
-    if "text" not in update["message"]:
-        return "Não é um texto!"  # Retorna imediatamente se não for um texto
-
-    message = update["message"]["text"]
-    chat_id = update["message"]["chat"]["id"]
-    datahora = str(datetime.datetime.fromtimestamp(update["message"]["date"]))
-
-    if "username" in update["message"]["from"]:
-        username = update["message"]["from"]["username"]
-    else:
-        username = "[não definido]"
-
-    print(f"[{datahora}] Nova mensagem de {first_name} @{username} ({chat_id}): {message}")
-    mensagens.append([datahora, "recebida", username, first_name, chat_id, message])
-
-    # Define qual será a resposta e envia
-    if message.lower().strip() == "olá, tatu" or message.lower().strip() == "ola, tatu":
-        texto_resposta = "Olá! Se quer receber as notícias de sites independentes do Nordeste me envie seu e-mail, por favor"
-    else:
-        texto_resposta = "Não entendi! Se quiser ter acesso às matérias de sites indepentes do Nordeste, envie seu e-mail, por favor "
-
-    nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
-    requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
-    mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta])
-
-    requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
-    return "ok"
+  hoje=datetime.now().strftime('%d-%m-%Y")
+  update-request.json
+  chat_id=update['message']['chat']['id']
+  message=update['message']['text']
+  nova_mensagem={'chat_id':chat_id,'text':planilha}
+  mensagem_if={'chat_id':chat_id,'text':f'Olá! Se quer receber as notícias de sites independentes do Nordeste me envie seu e-mail, por favor'}
+  mensagem_else={'chat_id':chat_id,'text':f'Não entendi! Se quiser ter acesso às matérias de sites indepentes do Nordeste, envie seu e-mail, por favor'} 
+  if message=='Olá':
+    texto_resposta=requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=mensagem_if)                                      
+  elif message.lower()=='sim':
+    texto_resposta=requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
+  else:
+    texto_respostas=requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=mensagem_else)                           
+  return "ok"
 
   
