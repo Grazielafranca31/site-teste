@@ -91,9 +91,6 @@ def dedoduro2():
   return "Planilha escrita"
 
 @app.route("/telegram-bot", methods=["POST"])
-import datetime
-import requests
-
 def telegram_bot():
     update = request.json
     if "text" not in update["message"]:
