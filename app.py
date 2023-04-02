@@ -92,7 +92,7 @@ def dedoduro2():
 
 @app.route("/telegram-bot", methods=["POST"])
 def telegram_bot():
-  hoje=datetime.now().strftime('%d-%m-%Y")
+  hoje = datetime.now().strftime('%d-%m-%Y')
   update-request.json
   chat_id=update['message']['chat']['id']
   message=update['message']['text']
